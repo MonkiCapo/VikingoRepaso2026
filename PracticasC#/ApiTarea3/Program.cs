@@ -11,7 +11,7 @@ app.MapPost("/api/checkout", async (CompraRequest pedido, HttpClient client) =>
 {
     try
     {
-        var responseCatalogo = await client.GetAsync($"http://localhost:5002/api/productos{pedido.ProductoId}");
+        var responseCatalogo = await client.GetAsync($"http://localhost:5002/api/productos/{pedido.ProductoId}");
         if (!responseCatalogo.IsSuccessStatusCode)
             return Results.BadRequest(new {Error = "El producto no existe en el catálogo."});
 

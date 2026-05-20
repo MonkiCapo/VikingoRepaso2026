@@ -18,9 +18,31 @@ app.MapGet("/api/usuarios/{id}/saldo", (int id) =>
     return Results.NotFound(new {Mensaje = "Usuario no encontrado"});
 });
 
-app.MapPost("/api/usuarios/{id}/debitar", (int Cobrarmonto) =>
+app.MapPost("/api/usuarios/{id}/debitar", (int id, decimal CobrarMonto) =>
 {
-    
+    if (usuarios.TryGetValue(id, out var saldo))
+    {
+        if (saldo >= CobrarMontoonto)
+        {
+            usuarios[id] -= CobrarMonto;
+
+            return Results.Ok(new
+            {
+                UsuarioId = id,
+                NuevoSaldo = usuarios[id]
+            });
+        }
+
+        return Results.BadRequest(new
+        {
+            Mensaje = "Saldo insuficiente"
+        });
+    }
+
+    return Results.NotFound(new
+    {
+        Mensaje = "Usuario no encontrado"
+    });
 });
 
 app.Run("https://localhost:5001");
